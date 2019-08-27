@@ -81,7 +81,7 @@ the surface is regarded
 ![icon](img/3fig1.jpg)
 
 ##### Reflection and Divergence
-射线管达到物体之后生成的新的射线管(有点不懂)
+射线管达到物体之后生成的新的射线管(有待理解)
 
 ##### Antenna Reception
 
