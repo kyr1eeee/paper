@@ -32,20 +32,73 @@
 
 #### 关键点
 此文章也多次提出由于未考虑散射和绕射所带来的仿真结果上的误差
-### GPU高效地实现高频的SBR-PO算法
+### GPU高效地实现高频的SBR-PO算法(后向散射的预测)
 #### INTRODUCTION
 SBR-PO计算量大，费时。
 出现了很多加速SBR-PO的方法，其中包括利用GPU。而本文将复杂的射线追踪计算交给了OptiX。
-##### IMPLEMENTATION ON A GPU
+#### IMPLEMENTATION ON A GPU
 介绍了OptiX的机制,SBR中二次电磁场源的问题会带来线程分裂。存储的优化，精简GPU向CPU的输出结果。
-##### NUMERICAL RESULTS
+#### NUMERICAL RESULTS
 
 两个实验，验证了OPTIX的判交和多反射计算的准确性
 
-##### COMPARISON AGAINST FEKO—A SCALED SHIP MODEL
+#### COMPARISON AGAINST FEKO—A SCALED SHIP MODEL
 为了更加深入地验证准确性和效率
 对包含14004个三角面地船模型进行仿真
 
 ![icon](img/2fig4.jpg)
 
 ![icon](img/2fig5.jpg)
+
+![icon](img/2table1.jpg)
+
+> 上面轻微地差异很可能是绕射地效果
+
+对多个电大尺寸地结构进行了仿真
+
+![icon](img/2fig6.jpg)
+
+>  In the current implementation, the CPU only handles I/O, but participates in little computations and is idle most of the time.
+
+### 运用射线追踪构建FMCW雷达系统
+
+#### INTRODUCTION
+介绍驾驶辅助系统、自动驾驶对场景感知的依赖性很高，强调了实现虚拟的传感器是如此的重要。
+
+介绍了这种虚拟传感器的底层接口-FMCW雷达系统。而采用向有限元法、FDTD达不到系统的性能要求，最后只剩下几何射线法。
+
+介绍ray launching 介绍了OptiX的机制
+#### Modeling
+ray tube "compact" ray tube
+> When calculating
+the interaction of a ray tube with a surface, only the orientation of the hit point of the ray on
+the surface is regarded
+
+##### Antenna Transmission
+
+半球发射射线管
+
+![icon](img/3fig1.jpg)
+
+##### Reflection and Divergence
+射线管达到物体之后生成的新的射线管(有点不懂)
+
+##### Antenna Reception
+
+double counting can be neglected
+
+##### Radar front end
+
+#### Implementation and Results
+> an implementation of the model using Nvidia OptiX integrated in the
+driving simulator Virtual Test Drive (VTD)
+
+> transmit 50 000 initial rays at a frame rate of 10Hz on a standard workstation in a motorway
+scene. The scene consists
+of six vehicles, guardrails, vegetation and traffic signs leading to 326 831 triangles
+
+#### 验证
+> a 77GHz FMCW debug radar (Radarbook from INRAS) with access
+to the A/D converter data is used.
+
+![icon](img/3fig2.jpg)
